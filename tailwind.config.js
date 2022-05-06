@@ -12,6 +12,11 @@ module.exports = {
         'hero-desktop--light': "url('./src/images/bg-desktop-light.jpg')",
       },
       colors: {
+        // Primary colors
+        blue: 'hsl(220, 98%, 61%)',
+        cyan: 'hsl(192, 100%, 67%)',
+        violet: 'hsl(280, 87%, 65%)',
+
         // Light theme
         'light-bg-primary': 'hsl(0, 0%, 98%)',
         'light-bg-secondary': 'hsl(236, 33%, 92%)',
