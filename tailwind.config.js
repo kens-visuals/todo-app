@@ -1,15 +1,16 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
         'josefin-sans': ['Josefin Sans', 'sans-serif'],
       },
       backgroundImage: {
-        'hero-mobile--dark': "url('./src/images/bg-mobile-dark.jpg')",
-        'hero-mobile--light': "url('./src/images/bg-mobile-light.jpg')",
-        'hero-desktop--dark': "url('./src/images/bg-desktop-dark.jpg')",
-        'hero-desktop--light': "url('./src/images/bg-desktop-light.jpg')",
+        'hero-mobile--dark': "url('/src/images/bg-mobile-dark.jpg')",
+        'hero-mobile--light': "url('/src/images/bg-mobile-light.jpg')",
+        'hero-desktop--dark': "url('/src/images/bg-desktop-dark.jpg')",
+        'hero-desktop--light': "url('/src/images/bg-desktop-light.jpg')",
       },
       colors: {
         // Primary colors
