@@ -15,14 +15,14 @@ const ThemeToggler = () => {
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           className="cursor-pointer"
         >
-          <img src={sunIcon} alt="sun icon" className="w-5" />
+          <img src={sunIcon} alt="sun" className="w-5" />
         </button>
       ) : (
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           className="cursor-pointer"
         >
-          <img src={moonIcon} alt="moon icon" className="w-5" />
+          <img src={moonIcon} alt="moon" className="w-5" />
         </button>
       )}
     </div>

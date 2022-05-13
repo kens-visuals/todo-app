@@ -1,24 +1,49 @@
-import ThemeToggle from './components/ThemeToggle';
-import { ThemeProvider } from './context/ThemeContext';
+import { useState, useReducer } from 'react';
 
-// assets
-// import sunIcon from './images/icon-sun.svg';
+// components
+import Header from './components/Header';
+import Container from './components/Container';
+import TodoInput from './components/TodoInput';
+import TodoList from './components/TodoList';
+
+export const ACTIONS = {
+  ADD: 'add',
+  REMOVE: 'remove',
+  COMPLETE: 'complete',
+  EDIT: 'edit',
+  DELETE: 'delete',
+  REMOVE_COMPLETED: 'remove-completed',
+};
+
+function todosReducer(state, { type, payload }) {
+  switch (type) {
+    case ACTIONS.ADD: {
+      return [
+        ...state,
+        { id: payload.id, todo: payload.task, completed: payload.completed },
+      ];
+    }
+
+    default:
+      throw new Error(`Unknown action type: ${type}`);
+  }
+}
 
 function App() {
+  const [todos, dispatch] = useReducer(todosReducer, []);
+
+  console.log(todos);
+
   return (
-    <div className="min-h-screen w-full bg-light-bg-primary dark:bg-dark-bg-primary">
-      <div className="md:dark:bg-hero-desktop--dark--dark h-screen bg-hero-mobile--light bg-contain bg-no-repeat dark:bg-hero-mobile--dark md:bg-hero-desktop--light">
-        <div className=" mx-auto w-[87%] max-w-lg py-12">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-semibold uppercase tracking-[.8rem] text-white">
-              Todo
-            </h1>
-            <ThemeToggle />
-            {/* <button type="button">
-              <img src={sunIcon} alt="sun icon" className="w-5" />
-            </button> */}
-          </div>
-        </div>
+    <div className="min-h-screen w-full bg-light-bg-secondary dark:bg-dark-bg-secondary">
+      <div className="h-screen bg-hero-mobile--light bg-contain bg-no-repeat dark:bg-hero-mobile--dark md:bg-hero-desktop--light md:dark:bg-hero-desktop--dark">
+        <Container>
+          <Header />
+
+          <TodoInput todos={todos} dispatch={dispatch} />
+
+          <TodoList todos={todos} />
+        </Container>
       </div>
     </div>
   );

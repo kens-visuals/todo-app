@@ -1,5 +1,6 @@
 import { useState, useEffect, createContext } from 'react';
 
+// DEL
 // const getInitialTheme = () => {
 //   if (typeof window !== 'undefined' && window.localStorage) {
 //     const storedPrefs = window.localStorage.getItem('color-theme');
