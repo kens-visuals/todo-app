@@ -23,6 +23,19 @@ function todosReducer(state, { type, payload }) {
         { id: payload.id, todo: payload.task, completed: payload.completed },
       ];
     }
+    case ACTIONS.REMOVE: {
+      return state.filter((todo) => todo.id !== payload.id);
+    }
+    case ACTIONS.COMPLETE: {
+      return state.map((todo) =>
+        todo.id === payload.id ? { ...todo, completed: !todo.completed } : todo
+      );
+    }
+    case ACTIONS.EDIT: {
+      return state.map((todo) =>
+        todo.id === payload.id ? { ...todo, todo: payload.updatedTodo } : todo
+      );
+    }
 
     default:
       throw new Error(`Unknown action type: ${type}`);
@@ -40,9 +53,9 @@ function App() {
         <Container>
           <Header />
 
-          <TodoInput todos={todos} dispatch={dispatch} />
+          <TodoInput dispatch={dispatch} />
 
-          <TodoList todos={todos} />
+          <TodoList todos={todos} dispatch={dispatch} />
         </Container>
       </div>
     </div>

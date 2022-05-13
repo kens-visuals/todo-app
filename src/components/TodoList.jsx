@@ -1,14 +1,14 @@
 // components
 import TodoItem from './TodoItem';
 
-export default function TodoList({ todos }) {
+export default function TodoList({ todos, dispatch }) {
   console.log(todos);
 
   return (
     <div className="mt-4">
       <ul className="w-full">
         {todos.map((todo, index) => (
-          <TodoItem key={todo.id} {...todo} index={index} />
+          <TodoItem key={todo.id} {...todo} index={index} dispatch={dispatch} />
         ))}
       </ul>
     </div>

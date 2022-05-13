@@ -12,15 +12,17 @@ const ThemeToggler = () => {
     <div className="rounded-full p-2 transition-all duration-500 ease-in-out">
       {theme === 'dark' ? (
         <button
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           className="cursor-pointer"
+          aria-label="toggle light mode"
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
         >
           <img src={sunIcon} alt="sun" className="w-5" />
         </button>
       ) : (
         <button
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           className="cursor-pointer"
+          aria-label="toggle dark mode"
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
         >
           <img src={moonIcon} alt="moon" className="w-5" />
         </button>
