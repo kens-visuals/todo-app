@@ -1,5 +1,3 @@
-import { useReducer } from 'react';
-
 export const ACTIONS = {
   ADD: 'add',
   REMOVE: 'remove',
@@ -37,8 +35,3 @@ export default function todosReducer(todos, { type, payload }) {
       throw new Error(`Unknown action type: ${type}`);
   }
 }
-
-// export default function useTodos() {
-//   const [todos, dispatch] = useReducer(todosReducer, []);
-//   return { todos, dispatch };
-// }

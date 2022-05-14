@@ -8,7 +8,7 @@ export default function ActivityPanel({ todos, dispatch, show, setShow }) {
       <button
         key={index}
         type="button"
-        className={`text-xs font-bold text-light-text-primary hover:text-light-text-tertiary dark:text-dark-text-quaternary hover:dark:text-dark-text-secondary 
+        className={`text-xs font-bold text-light-text-primary hover:text-light-text-tertiary dark:text-dark-text-quaternary hover:dark:text-dark-text-secondary md:text-sm 
         ${Object.keys(show)[0] === section && 'text-blue dark:text-blue'}`}
         onClick={() => setShow({ [section]: true })}
       >
@@ -19,8 +19,8 @@ export default function ActivityPanel({ todos, dispatch, show, setShow }) {
 
   return (
     <>
-      <div className="flex w-full items-center justify-between rounded-b-md bg-light-bg-primary py-3 px-4 dark:bg-dark-bg-primary">
-        <span className="text-xs text-light-text-primary dark:text-dark-text-quaternary">
+      <div className="flex w-full items-center justify-between rounded-b-md bg-light-bg-primary py-3 px-4 dark:bg-dark-bg-primary md:py-4 md:px-6">
+        <span className="text-xs text-light-text-primary dark:text-dark-text-quaternary md:text-sm">
           {countOfCompletedTodos <= 1
             ? `${countOfCompletedTodos} item left`
             : `${countOfCompletedTodos} items left`}
@@ -33,7 +33,7 @@ export default function ActivityPanel({ todos, dispatch, show, setShow }) {
         <button
           type="button"
           onClick={() => dispatch({ type: 'clear_completed' })}
-          className="text-xs text-light-text-primary hover:text-light-text-tertiary dark:text-dark-text-quaternary hover:dark:text-dark-text-secondary"
+          className="text-xs text-light-text-primary hover:text-light-text-tertiary dark:text-dark-text-quaternary hover:dark:text-dark-text-secondary md:text-sm"
         >
           Clear Completed
         </button>

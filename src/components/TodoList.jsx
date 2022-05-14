@@ -6,7 +6,7 @@ import ActivityPanel from './ActivityPanel';
 
 export default function TodoList({ todos, dispatch }) {
   const [show, setShow] = useState([
-    { all: true, active: false, completed: false },
+    { all: false, active: false, completed: false },
   ]);
 
   const allToDos = todos.map((todo, index) => (
@@ -21,7 +21,7 @@ export default function TodoList({ todos, dispatch }) {
       ));
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 md:mt-6">
       <ul className="w-full">
         {show.active
           ? otherToDos(true)
