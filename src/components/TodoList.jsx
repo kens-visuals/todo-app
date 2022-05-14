@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 // components
 import TodoItem from './TodoItem';
 import ActivityPanel from './ActivityPanel';
@@ -12,22 +13,21 @@ export default function TodoList({ todos, dispatch }) {
     <TodoItem key={todo.id} {...todo} index={index} dispatch={dispatch} />
   ));
 
-  const activeTodos = todos
-    .filter((todo) => todo.completed)
-    .map((todo, index) => (
-      <TodoItem key={todo.id} {...todo} index={index} dispatch={dispatch} />
-    ));
-
-  const completedTodos = todos
-    .filter((todo) => !todo.completed)
-    .map((todo, index) => (
-      <TodoItem key={todo.id} {...todo} index={index} dispatch={dispatch} />
-    ));
+  const otherToDos = (isActive) =>
+    todos
+      .filter((todo) => (isActive ? !todo.completed : todo.completed))
+      .map((todo, index) => (
+        <TodoItem key={todo.id} {...todo} index={index} dispatch={dispatch} />
+      ));
 
   return (
     <div className="mt-4">
       <ul className="w-full">
-        {show.active ? activeTodos : show.completed ? completedTodos : allToDos}
+        {show.active
+          ? otherToDos(true)
+          : show.completed
+          ? otherToDos(false)
+          : allToDos}
       </ul>
 
       {todos.length > 0 && (
