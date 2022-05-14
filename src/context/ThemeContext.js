@@ -1,20 +1,5 @@
 import { useState, useEffect, createContext } from 'react';
 
-// DEL
-// const getInitialTheme = () => {
-//   if (typeof window !== 'undefined' && window.localStorage) {
-//     const storedPrefs = window.localStorage.getItem('color-theme');
-
-//     if (typeof storedPrefs === 'string') return storedPrefs;
-
-//     const userMediaDark = window.matchMedia('(prefers-color-scheme: dark)');
-
-//     if (userMediaDark.matches) return 'dark';
-//   }
-
-// //   return 'light'; // light theme as the default;
-// };
-
 const setInitTheme = () => {
   const userMediaDark = window.matchMedia('(prefers-color-scheme: dark)');
   const userMediaLight = window.matchMedia('(prefers-color-scheme: light)');

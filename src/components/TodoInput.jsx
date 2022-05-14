@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 // assets
-import { ACTIONS } from '../App';
+import { ACTIONS } from '../hooks/useTodos';
 
 export default function TodoInput({ dispatch }) {
   const [task, setTask] = useState('');

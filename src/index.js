@@ -3,13 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+// contexts
 import { ThemeProvider } from './context/ThemeContext';
+import { TodosProvider } from './context/TodosContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ThemeProvider>
-      <App />
+      <TodosProvider>
+        <App />
+      </TodosProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
