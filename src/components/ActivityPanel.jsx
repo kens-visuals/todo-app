@@ -8,7 +8,7 @@ export default function ActivityPanel({ todos, dispatch, show, setShow }) {
       <button
         key={index}
         type="button"
-        className={`text-xs font-bold text-light-text-primary hover:text-light-text-tertiary dark:text-dark-text-quaternary hover:dark:text-dark-text-secondary md:text-sm 
+        className={`text-xs font-bold text-light-text-primary dark:text-dark-text-quaternary md:text-sm md:hover:text-light-text-tertiary md:hover:dark:text-dark-text-secondary 
         ${Object.keys(show)[0] === section && 'text-blue dark:text-blue'}`}
         onClick={() => setShow({ [section]: true })}
       >
@@ -33,7 +33,7 @@ export default function ActivityPanel({ todos, dispatch, show, setShow }) {
         <button
           type="button"
           onClick={() => dispatch({ type: 'clear_completed' })}
-          className="text-xs text-light-text-primary hover:text-light-text-tertiary dark:text-dark-text-quaternary hover:dark:text-dark-text-secondary md:text-sm"
+          className="text-xs text-light-text-primary dark:text-dark-text-quaternary md:text-sm md:hover:text-light-text-tertiary md:hover:dark:text-dark-text-secondary"
         >
           Clear Completed
         </button>
