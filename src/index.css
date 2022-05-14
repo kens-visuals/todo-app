@@ -9,6 +9,10 @@
     transition: all 0.3s;
   }
 
+  *:focus-visible {
+    outline: 2px solid hsl(220, 98%, 61%);
+  }
+
   body {
     min-height: 100vh;
     font-family: 'Josefin Sans', sans-serif;

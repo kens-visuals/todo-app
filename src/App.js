@@ -11,30 +11,32 @@ export const ACTIONS = {
   REMOVE: 'remove',
   COMPLETE: 'complete',
   EDIT: 'edit',
-  DELETE: 'delete',
-  REMOVE_COMPLETED: 'remove-completed',
+  CLEAR: 'clear_completed',
 };
 
-function todosReducer(state, { type, payload }) {
+function todosReducer(todos, { type, payload }) {
   switch (type) {
     case ACTIONS.ADD: {
       return [
-        ...state,
+        ...todos,
         { id: payload.id, todo: payload.task, completed: payload.completed },
       ];
     }
     case ACTIONS.REMOVE: {
-      return state.filter((todo) => todo.id !== payload.id);
+      return todos.filter((todo) => todo.id !== payload.id);
     }
     case ACTIONS.COMPLETE: {
-      return state.map((todo) =>
+      return todos.map((todo) =>
         todo.id === payload.id ? { ...todo, completed: !todo.completed } : todo
       );
     }
     case ACTIONS.EDIT: {
-      return state.map((todo) =>
+      return todos.map((todo) =>
         todo.id === payload.id ? { ...todo, todo: payload.updatedTodo } : todo
       );
+    }
+    case ACTIONS.CLEAR: {
+      return todos.filter((todo) => !todo.completed);
     }
 
     default:
@@ -48,7 +50,7 @@ function App() {
   console.log(todos);
 
   return (
-    <div className="min-h-screen w-full bg-light-bg-secondary dark:bg-dark-bg-secondary">
+    <div className="min-h-screen w-full bg-light-bg-secondary outline-1 dark:bg-dark-bg-secondary">
       <div className="h-screen bg-hero-mobile--light bg-contain bg-no-repeat dark:bg-hero-mobile--dark md:bg-hero-desktop--light md:dark:bg-hero-desktop--dark">
         <Container>
           <Header />
