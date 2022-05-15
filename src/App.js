@@ -15,7 +15,7 @@ function App() {
 
   return (
     <div className="min-h-screen w-full bg-light-bg-secondary outline-1 dark:bg-dark-bg-secondary">
-      <div className="grid h-screen grid-rows-[1fr_auto] bg-hero-mobile--light bg-contain bg-no-repeat dark:bg-hero-mobile--dark md:bg-hero-desktop--light  md:dark:bg-hero-desktop--dark">
+      <div className="grid min-h-screen grid-rows-[1fr_auto] bg-hero-mobile--light bg-contain bg-no-repeat dark:bg-hero-mobile--dark md:bg-hero-desktop--light md:dark:bg-hero-desktop--dark">
         <Container>
           <Header />
 
