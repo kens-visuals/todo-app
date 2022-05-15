@@ -37,7 +37,7 @@ Users should be able to:
 ### Links
 
 - Live Site URL: [https://kens-visuals.github.io/todo-app/](https://kens-visuals.github.io/todo-app/)
-- Solution URL: [TO_BE_UPDATED](TO_BE_UPDATED)
+- Solution URL: [https://www.frontendmentor.io/solutions/todo-app-built-with-react-and-tailwind-css-rJrsKyJPc](https://www.frontendmentor.io/solutions/todo-app-built-with-react-and-tailwind-css-rJrsKyJPc)
 
 ## My process
 
