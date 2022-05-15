@@ -12,8 +12,8 @@ export default function todosReducer(todos, { type, payload }) {
       if (!payload.task) return todos;
 
       return [
-        ...todos,
         { id: payload.id, todo: payload.task, completed: payload.completed },
+        ...todos,
       ];
     }
     case ACTIONS.REMOVE: {
