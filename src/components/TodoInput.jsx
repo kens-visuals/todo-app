@@ -28,7 +28,7 @@ export default function TodoInput({ dispatch }) {
             id="todo-input"
             onChange={(e) => setTask(e.target.value)}
             placeholder="Creacte a new todo..."
-            className="w-full rounded-md border-0 bg-light-bg-primary p-3 px-6 pl-12 text-sm text-light-text-tertiary caret-blue placeholder:text-sm placeholder:text-light-text-secondary focus-visible:outline focus-visible:outline-blue dark:bg-dark-bg-primary dark:text-dark-text-primary placeholder:dark:text-dark-text-quaternary md:p-4 md:px-16 md:text-lg md:placeholder:text-lg"
+            className="w-full rounded-md border-0 bg-light-bg-primary p-3 px-6 pl-12 text-sm text-light-text-tertiary caret-blue shadow-2xl shadow-black/20 placeholder:text-sm placeholder:text-light-text-secondary focus-visible:outline focus-visible:outline-blue dark:bg-dark-bg-primary dark:text-dark-text-primary placeholder:dark:text-dark-text-quaternary md:p-4 md:px-16 md:text-lg md:placeholder:text-xl"
           />
         </label>
       </form>

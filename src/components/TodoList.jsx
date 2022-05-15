@@ -21,7 +21,7 @@ export default function TodoList({ todos, dispatch }) {
       ));
 
   return (
-    <div className="mt-4 md:mt-6">
+    <div className="mt-4 shadow-2xl shadow-black/20 md:mt-6">
       <ul className="w-full">
         {show.active
           ? otherToDos(true)

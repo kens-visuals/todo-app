@@ -9,6 +9,8 @@ export const ACTIONS = {
 export default function todosReducer(todos, { type, payload }) {
   switch (type) {
     case ACTIONS.ADD: {
+      if (!payload.task) return todos;
+
       return [
         ...todos,
         { id: payload.id, todo: payload.task, completed: payload.completed },
@@ -23,6 +25,8 @@ export default function todosReducer(todos, { type, payload }) {
       );
     }
     case ACTIONS.EDIT: {
+      if (!payload.updatedTodo) return todos;
+
       return todos.map((todo) =>
         todo.id === payload.id ? { ...todo, todo: payload.updatedTodo } : todo
       );
