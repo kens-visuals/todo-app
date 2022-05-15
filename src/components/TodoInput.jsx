@@ -20,7 +20,7 @@ export default function TodoInput({ dispatch }) {
     <div className="pt-8">
       <form action="#" className="w-full" onSubmit={() => handleTodos(task)}>
         <label htmlFor="todo-input" className="relative">
-          <div className="absolute top-1/2 left-4 aspect-square w-5 -translate-y-1/2 rounded-full border border-light-text-secondary dark:border-dark-text-tertiary md:left-6 md:w-6"></div>
+          <span className="absolute top-1/2 left-4 aspect-square w-5 -translate-y-1/2 rounded-full border border-light-text-secondary dark:border-dark-text-tertiary md:left-6 md:w-6"></span>
 
           <input
             type="text"
