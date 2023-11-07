@@ -1,13 +1,16 @@
 import axiosInstance from './axiosConfig';
 
-export default async function updateTodo(todo) {
+export default async function updateTodo(id, todoID, todo) {
   try {
-    const response = await axiosInstance.put(`/todos/${todo?._id}`, {
-      text: todo.text,
-      completed: todo.completed,
-    });
+    const response = await axiosInstance.put(
+      `/todo-collections/${id}/todo/${todoID}`,
+      {
+        text: todo?.text,
+        completed: todo?.completed,
+      }
+    );
 
-    console.log('Todo Completed:', response.data);
+    console.log('Todo Updated:', response.data);
 
     return response.data;
   } catch (error) {

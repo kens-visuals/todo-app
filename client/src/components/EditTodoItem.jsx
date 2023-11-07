@@ -1,39 +1,42 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useQueryClient, useMutation } from 'react-query';
+
 import updateTodo from '../api/updateTodo';
+
+import { TodosContext } from '../context/TodosContext';
 
 import checkIcon from '../images/icon-check--dark.svg';
 
 export default function EditTodoItem({ todo, isEditing, setIsEditing }) {
-  const [updatedTask, setUpdatedTask] = useState(todo?.text);
-
   const queryClient = useQueryClient();
 
-  console.log(todo);
+  const [updatedTask, setUpdatedTask] = useState(todo?.text);
+
+  const { currentTodoCollectionID } = useContext(TodosContext);
 
   const { mutate: updateMutationTodo, isLoading: isUpdateMutationLoading } =
     useMutation({
-      mutationFn: (todo) => updateTodo(todo),
+      mutationFn: ({ id, todoID, todo }) => updateTodo(id, todoID, todo),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['todos'] });
+        queryClient.invalidateQueries({ queryKey: ['todo-collections'] });
       },
     });
 
-  // const handleEdit = () => {
-  //   dispatch({
-  //     type: 'edit',
-  //     payload: { id: id, updatedTodo: updatedTask },
-  //   });
-  //   setIsEditing(false);
-  // };
-
   const handleEdit = () => {
-    updateMutationTodo({ ...todo, text: updatedTask });
+    updateMutationTodo({
+      id: currentTodoCollectionID,
+      todoID: todo?._id,
+      todo: { ...todo, text: updatedTask },
+    });
     setIsEditing(false);
   };
 
   return (
-    <form className="flex w-full items-center" action="#" onSubmit={handleEdit}>
+    <form
+      action="PUT"
+      onSubmit={handleEdit}
+      className="flex w-full items-center"
+    >
       <input
         type="text"
         value={updatedTask}

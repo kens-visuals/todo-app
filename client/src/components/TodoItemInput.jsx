@@ -21,7 +21,7 @@ export default function TodoItemInput() {
   const { mutate: addTodoToCollectionMutation } = useMutation({
     queryKey: ['todo-collections'],
     mutationFn: () => createTodo(currentTodoCollectionID, data),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries(['todo-collections']);
     },
   });

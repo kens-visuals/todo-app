@@ -3,11 +3,12 @@ const isLoggedIn = require('./middleware/isLoggedIn');
 const router = express.Router();
 
 // router.post('/login', require('./routes/loginRoute'));
-// router.get('/todos', require('./routes/readTodosRoute'));
-// router.post('/todos', require('./routes/createTodoRoute'));
-// router.put('/todos/:id', isLoggedIn, require('./routes/updateTodoRoute'));
 
 router.get('/todo-collections', require('./routes/readTodoCollectionRoute'));
+router.put(
+  '/todo-collections/:id/todo/:todoID',
+  require('./routes/updateTodoRoute')
+);
 router.post('/todo-collections', require('./routes/createTodoCollectionRoute'));
 router.post(
   '/todo-collections/:id',

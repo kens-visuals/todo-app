@@ -1,16 +1,21 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useQueryClient, useMutation } from 'react-query';
 
 import createTodoCollection from '../api/createTodoCollection';
+
+import { TodosContext } from '../context/TodosContext';
 
 export default function TodoCollectionInput() {
   const queryClient = useQueryClient();
 
   const [title, setTitle] = useState('');
 
+  const { setCurrentTodoCollectionID } = useContext(TodosContext);
+
   const { mutate: createTodoCollectionMutation } = useMutation({
     mutationFn: (title) => createTodoCollection(title),
-    onSettled: () => {
+    onSuccess: (data) => {
+      setCurrentTodoCollectionID(data[0]?._id);
       queryClient.invalidateQueries(['todo-collections']);
     },
   });

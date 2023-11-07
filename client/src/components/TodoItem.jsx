@@ -19,13 +19,13 @@ export default function TodoItem({ todo, index }) {
 
   const [isEditing, setIsEditing] = useState(false);
 
-  console.log(todo);
-
   const { mutate: updateMutationTodo, isLoading: isUpdateMutationLoading } =
     useMutation({
-      mutationFn: (todo) => updateTodo(todo),
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['todo-collections'] });
+      mutationFn: ({ id, todoID, todo }) => updateTodo(id, todoID, todo),
+      onSuccess: (data) => {
+        queryClient.invalidateQueries(['todo-collections']);
+
+        console.log('Mutation Data:', data);
       },
     });
 
@@ -33,7 +33,7 @@ export default function TodoItem({ todo, index }) {
     useMutation({
       mutationFn: ({ id, todoID }) => removeTodo(id, todoID),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['todo-collections'] });
+        queryClient.invalidateQueries(['todo-collections']);
       },
     });
 
@@ -50,7 +50,11 @@ export default function TodoItem({ todo, index }) {
         aria-label="complete"
         disabled={isUpdateMutationLoading}
         onClick={() =>
-          updateMutationTodo({ ...todo, completed: !todo?.completed })
+          updateMutationTodo({
+            id: currentTodoCollectionID,
+            todoID: todo._id,
+            todo: { ...todo, completed: !todo?.completed },
+          })
         }
         className={`flex aspect-square h-5 items-center justify-center rounded-full border border-light-text-secondary hover:border-blue dark:border-dark-text-tertiary dark:hover:border-blue md:h-6
         ${todo?.completed && 'bg-button-gradient'}`}

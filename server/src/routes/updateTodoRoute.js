@@ -1,30 +1,33 @@
-const TodoModel = require('../models/TodoModel');
+const TodosCollectionModel = require('../models/TodosCollectionModel');
 
 module.exports = async (req, res) => {
-  const { id } = req.params;
+  const { id, todoID } = req.params;
+  const { text, completed } = req.body;
 
-  const todo = await TodoModel.findById(id);
+  try {
+    const updateFields = {};
 
-  if (!todo) {
-    return res.status(404).json({ message: 'Todo not found' });
+    if (text !== undefined) {
+      updateFields['todos.$.text'] = text;
+    }
+
+    if (completed !== undefined) {
+      updateFields['todos.$.completed'] = completed;
+    }
+
+    const updatedCollection = await TodosCollectionModel.findOneAndUpdate(
+      { _id: id, 'todos._id': todoID },
+      { $set: updateFields },
+      { new: true }
+    );
+
+    if (!updatedCollection) {
+      return res.status(404).json({ error: 'Collection not found' });
+    }
+
+    return res.json(updatedCollection);
+  } catch (error) {
+    console.error('Update Collection Error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
-
-  // if (
-  //   req.body.text !== undefined &&
-  //   req.body.text !== '' &&
-  //   req.body.text !== todo.text
-  // ) {
-  // }
-
-  // if (
-  //   req.body.completed !== undefined &&
-  //   req.body.completed !== todo.completed
-  // ) {
-  // }
-
-  todo.text = req.body.text;
-  todo.completed = req.body.completed;
-  const updatedTodo = await todo.save();
-
-  res.json(updatedTodo);
 };
