@@ -7,10 +7,6 @@ module.exports = {
         'josefin-sans': ['Josefin Sans', 'sans-serif'],
       },
       backgroundImage: {
-        'hero-mobile--dark': "url('/src/images/bg-mobile-dark.jpg')",
-        'hero-mobile--light': "url('/src/images/bg-mobile-light.jpg')",
-        'hero-desktop--dark': "url('/src/images/bg-desktop-dark.jpg')",
-        'hero-desktop--light': "url('/src/images/bg-desktop-light.jpg')",
         'button-gradient':
           'linear-gradient(130deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%))',
       },

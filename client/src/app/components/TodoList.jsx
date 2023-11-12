@@ -20,8 +20,6 @@ export default function TodoList() {
   const { currentTodoCollectionID, setCurrentTodoCollectionID } =
     useContext(TodosContext);
 
-  console.log('currentTodoCollectionID:', currentTodoCollectionID);
-
   const [show, setShow] = useState([
     { all: true, active: false, completed: false },
   ]);
@@ -57,33 +55,29 @@ export default function TodoList() {
       },
     });
 
-  const { mutate: loginMutation, isLoading: isLoginMutationLoading } =
-    useMutation({
-      queryKey: ['login'],
-      mutationFn: ({ email, password }) => login(email, password),
-      onSuccess: (data) => {
-        console.log('Mutation Data:', data);
+  // const { mutate: loginMutation, isLoading: isLoginMutationLoading } =
+  //   useMutation({
+  //     queryKey: ['login'],
+  //     mutationFn: ({ email, password }) => login(email, password),
+  //     onSuccess: (data) => {
+  //       console.log('Mutation Data:', data);
 
-        queryClient.invalidateQueries(['login']);
-      },
-    });
+  //       queryClient.invalidateQueries(['login']);
+  //     },
+  //   });
 
   const getTodoCollectionsList = () => {
     return todoCollections?.map((collection) => (
       <li
         key={collection?._id}
         onClick={() => setCurrentTodoCollectionID(collection?._id)}
-        className={`h-32 w-full min-w-[20rem] snap-start rounded-md px-4 py-4 text-white hover:bg-dark-text-tertiary ${
+        className={`h-32 w-full hover:cursor-pointer min-w-[20rem] snap-start rounded-md px-4 py-4 text-white hover:bg-dark-text-tertiary ${
           currentTodoCollectionID === collection?._id
             ? 'bg-dark-text-tertiary'
             : 'bg-dark-bg-primary'
         }`}
       >
-        <button
-          type="button"
-          className="flex h-full w-full flex-col items-center justify-between"
-          // onClick={() => setCurrentTodoCollectionID(collection?._id)}
-        >
+        <div className="flex h-full w-full flex-col items-center justify-between">
           {isRemoveTodoCollectionMutationLoading ? (
             <div>Loading...</div>
           ) : (
@@ -104,7 +98,7 @@ export default function TodoList() {
                   >
                     <path
                       fill="#494C6B"
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"
                     />
                   </svg>
@@ -116,7 +110,7 @@ export default function TodoList() {
               </div>
             </>
           )}
-        </button>
+        </div>
       </li>
     ));
   };
@@ -165,18 +159,6 @@ export default function TodoList() {
         Add user
       </button>
 
-      <button
-        type="button"
-        className="text-white"
-        onClick={() =>
-          loginMutation({
-            email: 'ken@gmail.com',
-            password: 'pass12345',
-          })
-        }
-      >
-        Login user
-      </button>
       <h2 className="mt-10 mb-2 text-2xl uppercase text-dark-text-primary">
         Todo Folders
       </h2>
