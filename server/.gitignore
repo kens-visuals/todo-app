@@ -1,0 +1,53 @@
+# Node.js files
+node_modules/
+
+# Logs
+logs
+*.log
+
+# Dependency directories
+bower_components/
+jspm_packages/
+
+# Output of build tools
+dist/
+build/
+
+# Environment variables
+.env
+
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Yarn integrity file
+.yarn-integrity
+# Next.js
+.next/
+out/
+
+# Node.js
+node_modules/
+
+# Logs
+logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+
+# Yarn
+.yarn/
+
+# Jest coverage
+coverage/
+
+# NPM
+*.npm-debug.log
+npm-debug.log
