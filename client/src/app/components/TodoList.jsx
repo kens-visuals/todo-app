@@ -3,8 +3,6 @@
 import { useContext, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import login from '@/app/api/login';
-import signup from '@/app/api/signup';
 import getTodoCollection from '@/app/api/getTodoCollections';
 import deleteTodoCollection from '@/app/api/delecteTodoCollection';
 
@@ -43,28 +41,6 @@ export default function TodoList() {
       setCurrentTodoCollectionID(data[0]?._id);
     },
   });
-
-  const { mutate: signUpMutation, isLoading: isSignUpMutationLoading } =
-    useMutation({
-      queryKey: ['signup'],
-      mutationFn: (user) => signup(user),
-      onSuccess: (data) => {
-        console.log('Mutation Data:', data);
-
-        queryClient.invalidateQueries(['signup']);
-      },
-    });
-
-  // const { mutate: loginMutation, isLoading: isLoginMutationLoading } =
-  //   useMutation({
-  //     queryKey: ['login'],
-  //     mutationFn: ({ email, password }) => login(email, password),
-  //     onSuccess: (data) => {
-  //       console.log('Mutation Data:', data);
-
-  //       queryClient.invalidateQueries(['login']);
-  //     },
-  //   });
 
   const getTodoCollectionsList = () => {
     return todoCollections?.map((collection) => (
@@ -145,20 +121,6 @@ export default function TodoList() {
 
   return (
     <div className="mt-4 shadow-2xl shadow-black/20 md:mt-6">
-      <button
-        type="button"
-        onClick={() =>
-          signUpMutation({
-            name: 'Ken Nek',
-            email: 'ken@gmail.com',
-            password: 'pass1234',
-            passwordConfirm: 'pass1234',
-          })
-        }
-      >
-        Add user
-      </button>
-
       <h2 className="mt-10 mb-2 text-2xl uppercase text-dark-text-primary">
         Todo Folders
       </h2>
