@@ -1,9 +1,10 @@
 import axiosInstance from './axiosConfig';
 
-export default async function createTodoCollection(title) {
+export default async function createTodoCollection(title, userID) {
   try {
     const response = await axiosInstance.post('/todo-collections', {
       title,
+      userID,
     });
 
     return response.data;

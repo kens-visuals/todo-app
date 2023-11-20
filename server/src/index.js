@@ -12,6 +12,11 @@ const port = 8080;
 dotenv.config();
 
 app.use(cors());
+// app.use((error, req, res, next) => {
+//   console.log(req.headers);
+
+//   next();
+// });
 app.use(express.static('public'));
 app.use(morgan('tiny'));
 app.use(express.json());

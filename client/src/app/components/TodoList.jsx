@@ -1,6 +1,7 @@
 'use client';
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import getTodoCollection from '@/app/api/getTodoCollections';
@@ -13,6 +14,8 @@ import TodoItemInput from '@/app/components/TodoItemInput';
 import ActivityPanel from '@/app/components/ActivityPanel';
 
 export default function TodoList() {
+  const { data: session } = useSession();
+
   const queryClient = useQueryClient();
 
   const { currentTodoCollectionID, setCurrentTodoCollectionID } =
@@ -24,10 +27,8 @@ export default function TodoList() {
 
   const { data: todoCollections, isLoading: areTodosLoading } = useQuery({
     queryKey: ['todo-collections'],
-    queryFn: getTodoCollection,
-    onSuccess: (data) => {
-      // setCurrentTodoCollectionID(data?.at(0)?._id);
-    },
+    queryFn: () => getTodoCollection(session?.user?.id),
+    enabled: !!session?.user?.id,
   });
 
   const {
@@ -36,9 +37,9 @@ export default function TodoList() {
   } = useMutation({
     queryKey: ['todo-collections'],
     mutationFn: (id) => deleteTodoCollection(id),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries(['todo-collections']);
-      setCurrentTodoCollectionID(data[0]?._id);
+      setCurrentTodoCollectionID(todoCollections?.at(1)?._id);
     },
   });
 
@@ -120,24 +121,37 @@ export default function TodoList() {
     );
 
   return (
-    <div className="mt-4 shadow-2xl shadow-black/20 md:mt-6">
-      <h2 className="mt-10 mb-2 text-2xl uppercase text-dark-text-primary">
-        Todo Folders
-      </h2>
-      <ul className="no-scrollbar flex max-w-[34rem] snap-x snap-mandatory gap-4 overflow-x-auto pb-4">
+    <div className="mt-4 md:mt-6">
+      <div className="mt-10 mb-2 text-2xl  text-dark-text-primary">
+        {!todoCollections?.length ? (
+          <div className="flex items-center justify-center w-full h-full">
+            <h2>You haven't created any folders yet</h2>
+          </div>
+        ) : (
+          <h2 className="uppercase">Todo Folders</h2>
+        )}
+      </div>
+
+      <ul className="no-scrollbar flex max-w-[34rem] snap-x snap-mandatory gap-4 overflow-x-auto pb-4 shadow-2xl shadow-black/20">
         {getTodoCollectionsList()}
       </ul>
 
-      <TodoItemInput />
+      {!!todoCollections?.length && (
+        <>
+          <TodoItemInput />
 
-      <h3 className="mb-1 text-lg uppercase text-dark-text-primary">Tasks</h3>
-      <ul className="w-full">
-        {show.active
-          ? otherToDos(true)
-          : show?.completed
-          ? otherToDos(false)
-          : allToDos}
-      </ul>
+          <h3 className="mb-1 text-lg uppercase text-dark-text-primary">
+            Tasks
+          </h3>
+          <ul className="w-full">
+            {show.active
+              ? otherToDos(true)
+              : show?.completed
+              ? otherToDos(false)
+              : allToDos}
+          </ul>
+        </>
+      )}
 
       {currentTodoCollectionItems?.map(
         (collection) =>

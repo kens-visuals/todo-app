@@ -15,9 +15,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <Providers>
-      <html lang="en">
-        <body className={inter.className}>
+    <html lang="en">
+      <body className={inter.className}>
+        <Providers>
           <div className="w-full bg-light-bg-secondary outline-1 dark:bg-dark-bg-secondary min-h-screen grid grid-rows-[auto_1fr_auto] items-center justify-center bg-hero-mobile--light bg-contain bg-no-repeat dark:bg-hero-mobile--dark md:grid md:bg-hero-desktop--light md:dark:bg-hero-desktop--dark">
             <Navigation />
             <main className="mx-auto w-[34rem] max-w-[34rem]">
@@ -26,8 +26,8 @@ export default function RootLayout({ children }) {
             </main>
             <Footer />
           </div>
-        </body>
-      </html>
-    </Providers>
+        </Providers>
+      </body>
+    </html>
   );
 }

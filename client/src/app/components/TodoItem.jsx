@@ -66,7 +66,7 @@ export default function TodoItem({ todo, index }) {
             <path
               fill="none"
               stroke="#FFF"
-              stroke-width="2"
+              strokeWidth="2"
               d="M1 4.304L3.696 7l6-6"
             />
           </svg>
@@ -109,7 +109,7 @@ export default function TodoItem({ todo, index }) {
               xmlns="http://www.w3.org/2000/svg"
               fill="#494C6B"
               fillRule="evenodd"
-              clip-rule="evenodd"
+              clipRule="evenodd"
             >
               <path d="M8.071 21.586l-7.071 1.414 1.414-7.071 14.929-14.929 5.657 5.657-14.929 14.929zm-.493-.921l-4.243-4.243-1.06 5.303 5.303-1.06zm9.765-18.251l-13.3 13.301 4.242 4.242 13.301-13.3-4.243-4.243z" />
             </svg>

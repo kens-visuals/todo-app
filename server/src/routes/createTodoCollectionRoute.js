@@ -1,9 +1,9 @@
 const TodosCollectionModel = require('../models/TodosCollectionModel');
 
 module.exports = async (req, res) => {
-  const { title, todos } = req?.body;
+  const { title, userID } = req?.body;
 
-  const todosCollection = new TodosCollectionModel({ title, todos });
+  const todosCollection = new TodosCollectionModel({ title, userID });
 
   const newTodosCollection = await todosCollection.save();
 
