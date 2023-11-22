@@ -11,6 +11,16 @@ module.exports = {
           'linear-gradient(130deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%))',
       },
       colors: {
+        // New colors
+        primary: '#1e1e1e',
+        secondary: '#d4d5cf',
+        tertiary: '#ffffff',
+        green: '#5cab8d',
+        yellow: '#fdff8e',
+        red: '#ff6347',
+        'dark-green': '#446d5e',
+        'jungle-green': '#0e4749',
+
         // Primary colors
         blue: 'hsl(220, 98%, 61%)',
         cyan: 'hsl(192, 100%, 67%)',

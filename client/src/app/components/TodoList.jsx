@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { useSession } from 'next-auth/react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -14,10 +14,11 @@ import TodoItemInput from '@/app/components/TodoItemInput';
 import ActivityPanel from '@/app/components/ActivityPanel';
 
 export default function TodoList() {
-  const { data: session } = useSession();
+  const listRef = useRef(null);
 
   const queryClient = useQueryClient();
 
+  const { data: session } = useSession();
   const { currentTodoCollectionID, setCurrentTodoCollectionID } =
     useContext(TodosContext);
 
@@ -43,12 +44,22 @@ export default function TodoList() {
     },
   });
 
+  useEffect(() => {
+    // Scroll to the beginning when a new collection is created
+    if (listRef.current) {
+      listRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  }, [todoCollections?.length]);
+
   const getTodoCollectionsList = () => {
     return todoCollections?.map((collection) => (
       <li
         key={collection?._id}
         onClick={() => setCurrentTodoCollectionID(collection?._id)}
-        className={`h-32 w-full hover:cursor-pointer min-w-[20rem] snap-start rounded-md px-4 py-4 text-white hover:bg-dark-text-tertiary ${
+        className={`h-32 w-full hover:cursor-pointer snap-start rounded-md px-4 py-4 text-white hover:bg-dark-text-tertiary ${
           currentTodoCollectionID === collection?._id
             ? 'bg-dark-text-tertiary'
             : 'bg-dark-bg-primary'
@@ -132,7 +143,10 @@ export default function TodoList() {
         )}
       </div>
 
-      <ul className="no-scrollbar flex max-w-[34rem] snap-x snap-mandatory gap-4 overflow-x-auto pb-4 shadow-2xl shadow-black/20">
+      <ul
+        ref={listRef}
+        className="no-scrollbar flex max-w-[34rem] snap-x snap-proximity gap-4 overflow-x-auto pb-4 shadow-2xl shadow-black/20"
+      >
         {getTodoCollectionsList()}
       </ul>
 
@@ -147,8 +161,8 @@ export default function TodoList() {
             {show.active
               ? otherToDos(true)
               : show?.completed
-              ? otherToDos(false)
-              : allToDos}
+                ? otherToDos(false)
+                : allToDos}
           </ul>
         </>
       )}
