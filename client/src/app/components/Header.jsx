@@ -10,11 +10,15 @@ export default function Header() {
   return (
     <ul className="flex items-center justify-start gap-1">
       {'Tod'.split('').map((letter) => (
-        <li className="text-7xl text-center font-bold leading-none uppercase text-primary dark:text-secondary ">
+        <li
+          key={letter}
+          className="text-7xl text-center font-bold leading-none uppercase text-primary dark:text-secondary"
+        >
           {letter}
         </li>
       ))}
-      {session ? (
+
+      {session?.user ? (
         <li
           onMouseEnter={() => setShow(true)}
           onMouseLeave={() => setShow(false)}
@@ -36,7 +40,7 @@ export default function Header() {
           </div>
         </li>
       ) : (
-        <li className="text-7xl text-center font-bold leading-none uppercase text-secondary dark:text-primary ">
+        <li className="text-7xl text-center font-bold leading-none uppercase text-primary dark:text-secondary">
           o
         </li>
       )}

@@ -1,26 +1,21 @@
 'use client';
 
-import { useContext, useEffect, useState, useRef } from 'react';
+import { useContext, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import getTodoCollection from '@/app/api/getTodoCollections';
-import deleteTodoCollection from '@/app/api/delecteTodoCollection';
 
 import { TodosContext } from '@/app/context/TodosContext';
 
 import TodoItem from '@/app/components/TodoItem';
 import TodoItemInput from '@/app/components/TodoItemInput';
 import ActivityPanel from '@/app/components/ActivityPanel';
+import TodoCollectionList from './TodoCollectionList';
 
 export default function TodoList() {
-  const listRef = useRef(null);
-
-  const queryClient = useQueryClient();
-
   const { data: session } = useSession();
-  const { currentTodoCollectionID, setCurrentTodoCollectionID } =
-    useContext(TodosContext);
+  const { currentTodoCollectionID } = useContext(TodosContext);
 
   const [show, setShow] = useState([
     { all: true, active: false, completed: false },
@@ -31,77 +26,6 @@ export default function TodoList() {
     queryFn: () => getTodoCollection(session?.user?.id),
     enabled: !!session?.user?.id,
   });
-
-  const {
-    mutate: removeTodoCollectionMutation,
-    isLoading: isRemoveTodoCollectionMutationLoading,
-  } = useMutation({
-    queryKey: ['todo-collections'],
-    mutationFn: (id) => deleteTodoCollection(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['todo-collections']);
-      setCurrentTodoCollectionID(todoCollections?.at(1)?._id);
-    },
-  });
-
-  useEffect(() => {
-    // Scroll to the beginning when a new collection is created
-    if (listRef.current) {
-      listRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    }
-  }, [todoCollections?.length]);
-
-  const getTodoCollectionsList = () => {
-    return todoCollections?.map((collection) => (
-      <li
-        key={collection?._id}
-        onClick={() => setCurrentTodoCollectionID(collection?._id)}
-        className={`h-32 w-full hover:cursor-pointer snap-start rounded-md px-4 py-4 text-white hover:bg-dark-text-tertiary ${
-          currentTodoCollectionID === collection?._id
-            ? 'bg-dark-text-tertiary'
-            : 'bg-dark-bg-primary'
-        }`}
-      >
-        <div className="flex h-full w-full flex-col items-center justify-between">
-          {isRemoveTodoCollectionMutationLoading ? (
-            <div>Loading...</div>
-          ) : (
-            <>
-              <div className="flex w-full items-start justify-between">
-                <span>{collection.title}</span>
-
-                <button
-                  type="button"
-                  disabled={isRemoveTodoCollectionMutationLoading}
-                  onClick={() => removeTodoCollectionMutation(collection?._id)}
-                >
-                  <svg
-                    className="w-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                  >
-                    <path
-                      fill="#494C6B"
-                      fillRule="evenodd"
-                      d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <div className="flex w-full items-end justify-between">
-                <span>Tasks' count: {collection?.todos?.length}</span>
-              </div>
-            </>
-          )}
-        </div>
-      </li>
-    ));
-  };
 
   const currentTodoCollectionItems =
     todoCollections &&
@@ -127,36 +51,51 @@ export default function TodoList() {
   if (areTodosLoading)
     return (
       <div className="mt-4 shadow-2xl shadow-black/20 md:mt-6">
-        <p className="mt-10 text-4xl text-white">Loading...</p>;
+        <p className="text-4xl text-white">Loading...</p>;
       </div>
     );
 
+  const formatName = (name, fontSize = 'text-7xl') =>
+    name
+      .split('')
+      .map((letter) => (
+        <li
+          className={`text-center font-bold leading-none uppercase text-primary dark:text-secondary ${fontSize}`}
+        >
+          {letter}
+        </li>
+      ));
+
+  const todosCount = todoCollections.find(
+    (collection) => collection?._id === currentTodoCollectionID
+  )?.todos?.length;
+
   return (
-    <div className="mt-4 md:mt-6">
-      <div className="mt-10 mb-2 text-2xl  text-dark-text-primary">
+    <div className="mt-2">
+      <div className="text-2xl  text-dark-text-primary">
         {!todoCollections?.length ? (
           <div className="flex items-center justify-center w-full h-full">
             <h2>You haven't created any folders yet</h2>
           </div>
         ) : (
-          <h2 className="uppercase">Todo Folders</h2>
+          <>
+            <ul className="flex-wrap flex items-center w-full justify-between gap-1">
+              {formatName('Collections', 'text-3xl')}
+            </ul>
+          </>
         )}
       </div>
 
-      <ul
-        ref={listRef}
-        className="no-scrollbar flex max-w-[34rem] snap-x snap-proximity gap-4 overflow-x-auto pb-4 shadow-2xl shadow-black/20"
-      >
-        {getTodoCollectionsList()}
-      </ul>
+      <TodoCollectionList todoCollections={todoCollections} />
 
       {!!todoCollections?.length && (
         <>
           <TodoItemInput />
 
-          <h3 className="mb-1 text-lg uppercase text-dark-text-primary">
-            Tasks
-          </h3>
+          <ul className="flex-wrap flex items-center w-full justify-start gap-4 my-4">
+            {formatName(`Tasks ${todosCount}`, 'text-2xl')}
+          </ul>
+
           <ul className="w-full">
             {show.active
               ? otherToDos(true)

@@ -10,7 +10,7 @@ export default function Navigation() {
   const { data: session } = useSession();
 
   return (
-    <div className="fixed bottom-0 w-full flex bg-dark-green rounded-3xl p-7 gap-4 text-tertiary justify-between items-center">
+    <div className="fixed bottom-0 w-full flex bg-green dark:bg-yellow rounded-3xl p-7 gap-4 text-tertiary justify-between items-center dark:text-primary">
       <ThemeToggle />
 
       <Link href="/">
@@ -47,7 +47,7 @@ export default function Navigation() {
       </Link>
 
       {session ? (
-        <Link href="/api/auth/signout?callbackUrl=/" className="text-tertiary">
+        <Link href="/api/auth/signout?callbackUrl=/">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -64,7 +64,7 @@ export default function Navigation() {
           </svg>
         </Link>
       ) : (
-        <Link href="/api/auth/signin" className="text-tertiary">
+        <Link href="/api/auth/signin">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

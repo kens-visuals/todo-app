@@ -28,6 +28,7 @@ export default function TodoItemInput() {
   return (
     <form
       action="POST"
+      className="mt-2"
       onSubmit={(e) => {
         e.preventDefault();
 
@@ -43,7 +44,7 @@ export default function TodoItemInput() {
         value={todo}
         onChange={(e) => handleTodo(e)}
         placeholder="Create a new todo..."
-        className="mb-4 w-full rounded-md border-0 bg-light-bg-primary p-3 px-6 pl-12 text-sm text-light-text-tertiary caret-blue shadow-2xl shadow-black/20 placeholder:text-sm placeholder:text-light-text-secondary focus-visible:outline focus-visible:outline-blue dark:bg-dark-bg-primary dark:text-dark-text-primary placeholder:dark:text-dark-text-quaternary md:p-2 md:px-6 md:text-lg md:placeholder:text-lg"
+        className="w-full rounded-xl border-0 bg-primary px-1 py-2 text-sm text-light-text-tertiary caret-dark-green shadow-2xl shadow-black/20 placeholder:text-light-text-secondary focus-visible:outline focus-visible:outline-dark-green dark:focus-visible:outline-yellow dark:bg-dark-green dark:text-dark-text-primary placeholder:dark:text-secondary md:p-4 md:text-lg md:placeholder:text-xl placeholder:uppercase placeholder:tracking-wide"
       />
     </form>
   );

@@ -20,7 +20,7 @@ const ThemeToggler = () => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6 text-tertiary"
+            className="w-6 h-6 text-tertiary dark:text-primary"
           >
             <path
               strokeLinecap="round"

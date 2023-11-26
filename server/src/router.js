@@ -1,10 +1,5 @@
 const express = require('express');
-const isLoggedIn = require('./middleware/isLoggedIn');
 const router = express.Router();
-
-// router.post('/login', require('./routes/loginRoute'));
-// router.post('/signup', require('./routes/signupRoute'));
-// router.post('/login', require('./routes/loginRoute'));
 
 router.get(
   '/todo-collections/:userID',

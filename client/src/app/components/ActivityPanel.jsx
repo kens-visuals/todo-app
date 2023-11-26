@@ -1,4 +1,4 @@
-export default function ActivityPanel({ todos, dispatch, show, setShow }) {
+export default function ActivityPanel({ todos, show, setShow }) {
   const sections = ['all', 'active', 'completed'];
 
   const countOfCompletedTodos = todos?.filter(
