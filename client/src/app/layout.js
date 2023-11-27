@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={plusJakartaSans.className}>
         <Providers>
-          <div className="w-full bg-secondary dark:bg-primary min-h-[200vh] grid grid-rows-[auto_1fr_auto]">
+          <div className="w-full bg-secondary dark:bg-primary min-h-screen grid grid-rows-[auto_1fr_auto] px-1">
             {/* <Footer /> */}
             <main>
               <Header />

@@ -43,8 +43,8 @@ export default function TodoItemInput() {
         type="text"
         value={todo}
         onChange={(e) => handleTodo(e)}
-        placeholder="Create a new todo..."
-        className="w-full rounded-xl border-0 bg-primary px-1 py-2 text-sm text-light-text-tertiary caret-dark-green shadow-2xl shadow-black/20 placeholder:text-light-text-secondary focus-visible:outline focus-visible:outline-dark-green dark:focus-visible:outline-yellow dark:bg-dark-green dark:text-dark-text-primary placeholder:dark:text-secondary md:p-4 md:text-lg md:placeholder:text-xl placeholder:uppercase placeholder:tracking-wide"
+        placeholder="create a todo..."
+        className="w-full rounded-xl border-0 bg-primary px-4 py-2 text-sm text-tertiary caret-yellow shadow-2xl shadow-black/20 placeholder:text-tertiary focus-visible:outline focus-visible:outline-dark-green dark:focus-visible:outline-yellow dark:bg-dark-green placeholder:dark:text-secondary md:p-4 md:text-lg placeholder:text-xs placeholder:tracking-widest"
       />
     </form>
   );

@@ -7,8 +7,8 @@ module.exports = {
         'josefin-sans': ['Josefin Sans', 'sans-serif'],
       },
       backgroundImage: {
-        'button-gradient':
-          'linear-gradient(130deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%))',
+        'button-gradient--dark': 'linear-gradient(130deg, #fdff8e, #1e1e1e)',
+        'button-gradient--light': 'linear-gradient(130deg, #5cab8d, #1e1e1e)',
       },
       colors: {
         // New colors

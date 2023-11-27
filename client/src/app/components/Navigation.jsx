@@ -10,7 +10,7 @@ export default function Navigation() {
   const { data: session } = useSession();
 
   return (
-    <div className="fixed bottom-0 w-full flex bg-green dark:bg-yellow rounded-3xl p-7 gap-4 text-tertiary justify-between items-center dark:text-primary">
+    <div className="left-0 bottom-0 w-full flex rounded-3xl p-7 gap-4 text-primary justify-between items-center fixed shadow-md backdrop-blur-sm dark:bg-yellow/75 bg-green/75 backdrop-filter bg-opacity-75">
       <ThemeToggle />
 
       <Link href="/">

@@ -19,6 +19,10 @@ router.delete(
   require('./routes/deleteTodoCollectionRoute')
 );
 router.delete(
+  '/todo-collections/:id/todo',
+  require('./routes/clearCompletedRoute')
+);
+router.delete(
   '/todo-collections/:id/todo/:todoID',
   require('./routes/deleteTodoRoute')
 );

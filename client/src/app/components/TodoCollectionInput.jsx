@@ -41,8 +41,8 @@ export default function TodoCollectionInput() {
         value={title}
         id="todo-input"
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Create a new todo collection..."
-        className="w-full rounded-3xl border-0 bg-green px-1 py-6 text-sm text-light-text-tertiary caret-dark-green shadow-2xl shadow-black/20 placeholder:text-light-text-secondary focus-visible:outline focus-visible:outline-dark-green dark:bg-yellow dark:text-dark-text-primary placeholder:dark:text-dark-text-quaternary md:p-4 md:text-lg md:placeholder:text-xl placeholder:uppercase placeholder:tracking-wide"
+        placeholder="create a todo collection..."
+        className="w-full rounded-xl text-xl border-0 bg-green px-4 py-6 text-tertiary caret-dark-green shadow-2xl shadow-black/20 placeholder:text-secondary focus-visible:outline focus-visible:outline-dark-green dark:bg-yellow dark:text-primary placeholder:dark:text-primary/50 md:p-4 md:text-lg md:placeholder:text-xl placeholder:tracking-wide"
       />
     </form>
   );

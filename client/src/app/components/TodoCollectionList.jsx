@@ -1,16 +1,19 @@
 'use client';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { TodosContext } from '@/app/context/TodosContext';
 
 import deleteTodoCollection from '@/app/api/delecteTodoCollection';
+import { createPortal } from 'react-dom';
 
 export default function TodoCollectionList({ todoCollections }) {
   const queryClient = useQueryClient();
 
   const { currentTodoCollectionID, setCurrentTodoCollectionID } =
     useContext(TodosContext);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const {
     mutate: removeTodoCollectionMutation,
@@ -19,13 +22,22 @@ export default function TodoCollectionList({ todoCollections }) {
     queryKey: ['todo-collections'],
     mutationFn: (id) => deleteTodoCollection(id),
     onSuccess: () => {
-      queryClient.invalidateQueries(['todo-collections']);
-      setCurrentTodoCollectionID(todoCollections?.at(1)?._id);
+      queryClient.invalidateQueries({ queryKey: ['todo-collections'] });
+
+      const collectionIndex = todoCollections?.findIndex(
+        (collection) => collection?._id === currentTodoCollectionID
+      );
+
+      if (collectionIndex === 0) {
+        setCurrentTodoCollectionID(todoCollections?.at(index + 1)?._id);
+      } else {
+        setCurrentTodoCollectionID(todoCollections?.at(index - 1)?._id);
+      }
     },
   });
 
   return (
-    <ul className="no-scrollbar flex max-w-[34rem] snap-x snap-proximity overflow-x-auto gap-2 my-4">
+    <ul className="no-scrollbar flex snap-x snap-proximity overflow-x-auto my-4 pr-1 max-w-full gap-2">
       {todoCollections?.map((collection) => (
         <li
           key={collection?._id}
@@ -43,28 +55,65 @@ export default function TodoCollectionList({ todoCollections }) {
               <div className="flex w-full items-center justify-between ">
                 <span>{collection.title}</span>
                 {currentTodoCollectionID === collection?._id && (
-                  <button
-                    type="button"
-                    disabled={isRemoveTodoCollectionMutationLoading}
-                    onClick={() =>
-                      removeTodoCollectionMutation(collection?._id)
-                    }
-                  >
-                    <svg
-                      fill="none"
-                      strokeWidth={1.5}
-                      viewBox="0 0 24 24"
-                      className="w-4 h-4"
-                      stroke="currentColor"
-                      xmlns="http://www.w3.org/2000/svg"
+                  <div className="h-max w-max relative">
+                    <button
+                      type="button"
+                      aria-label="remove todo collection"
+                      className="flex place-content-center"
+                      disabled={isRemoveTodoCollectionMutationLoading}
+                      onClick={() => setIsDeleteModalOpen(true)}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
+                      <svg
+                        fill="none"
+                        strokeWidth={1.5}
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-4 h-4 hover:text-red"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+
+                    {isDeleteModalOpen &&
+                      createPortal(
+                        <div className="inset-0 fixed bg-primary/50 dark:bg-tertiary/50 flex items-center justify-center text-tertiary px-4">
+                          <div className="bg-primary rounded-lg p-4 grid gap-4">
+                            If you click yes, you will delete all todos in this
+                            collection. Are you sure you want to delete this
+                            todo collection permanently?
+                            <div className="flex w-full gap-4">
+                              <button
+                                type="button"
+                                aria-label="remove todo collection"
+                                className="bg-tertiary w-full text-primary px-4 py-2 rounded-lg hover:bg-tertiary hover:text-primary/50"
+                                disabled={isRemoveTodoCollectionMutationLoading}
+                                onClick={() => setIsDeleteModalOpen(false)}
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                type="button"
+                                aria-label="remove todo collection"
+                                className="bg-red text-white w-full px-4 py-2 rounded-lg hover:bg-red/50 hover:text-red"
+                                disabled={isRemoveTodoCollectionMutationLoading}
+                                onClick={() => {
+                                  removeTodoCollectionMutation(collection?._id);
+                                  setIsDeleteModalOpen(false);
+                                }}
+                              >
+                                Yes, please!
+                              </button>
+                            </div>
+                          </div>
+                        </div>,
+                        document.body
+                      )}
+                  </div>
                 )}
               </div>
             )}

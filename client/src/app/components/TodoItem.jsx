@@ -36,10 +36,9 @@ export default function TodoItem({ todo, index }) {
 
   return (
     <li
-      className={`flex w-full items-center bg-light-bg-primary py-3 px-4 dark:bg-dark-bg-primary md:p-5 md:px-6 
+      className={`flex w-full items-center bg-tertiary dark:bg-secondary p-2 overflow-hidden 
       ${index === 0 && 'rounded-t-md'} ${
-        index >= 0 &&
-        'border-b border-b-light-text-secondary dark:border-b-dark-text-quaternary'
+        index >= 0 && 'border-b border-b-secondary dark:border-b-primary'
       }`}
     >
       <button
@@ -53,15 +52,18 @@ export default function TodoItem({ todo, index }) {
             todo: { ...todo, completed: !todo?.completed },
           })
         }
-        className={`flex aspect-square h-5 items-center justify-center rounded-full border border-light-text-secondary hover:border-blue dark:border-dark-text-tertiary dark:hover:border-blue md:h-6
-        ${todo?.completed && 'bg-button-gradient'}`}
+        className={`flex aspect-square h-5 items-center justify-center rounded-full border border-green hover:border-primary dark:border-primary dark:hover:border-yellow md:h-6
+        ${
+          todo?.completed &&
+          'dark:bg-button-gradient--dark bg-button-gradient--light'
+        }`}
       >
         {todo?.completed && (
           <svg
-            className="h-2"
-            xmlns="http://www.w3.org/2000/svg"
             width="11"
             height="9"
+            className="h-2"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
               fill="none"
@@ -81,10 +83,10 @@ export default function TodoItem({ todo, index }) {
         />
       ) : (
         <span
-          className={`w-[75%] overflow-scroll px-3 text-sm text-light-text-tertiary transition-all duration-300 focus-visible:outline focus-visible:outline-blue dark:text-dark-text-primary md:w-[85%] md:px-5 md:text-lg
+          className={`w-[75%] overflow-scroll px-3 text-sm text-primary transition-all duration-300 focus-visible:outline-none dark:text-primary md:w-[85%] md:px-5 md:text-lg
           ${
             todo?.completed &&
-            'text-light-text-secondary line-through dark:text-dark-text-secondary'
+            'text-secondary line-through dark:text-dark-green'
           } `}
         >
           {isUpdateMutationLoading || isRemoveMutationLoading ? (
@@ -96,26 +98,31 @@ export default function TodoItem({ todo, index }) {
       )}
 
       {isEditing || (
-        <div className="ml-auto flex items-center gap-2 md:gap-4">
+        <div className="ml-auto flex items-center gap-3">
           <button
             type="button"
+            className="p-2"
             aria-label="edit"
             onClick={() => setIsEditing(true)}
           >
             <svg
-              className="w-4 md:w-5"
-              width="24"
-              height="24"
+              fill="none"
+              strokeWidth={1.5}
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-5 h-5 hover:text-green text-primary"
               xmlns="http://www.w3.org/2000/svg"
-              fill="#494C6B"
-              fillRule="evenodd"
-              clipRule="evenodd"
             >
-              <path d="M8.071 21.586l-7.071 1.414 1.414-7.071 14.929-14.929 5.657 5.657-14.929 14.929zm-.493-.921l-4.243-4.243-1.06 5.303 5.303-1.06zm9.765-18.251l-13.3 13.301 4.242 4.242 13.301-13.3-4.243-4.243z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+              />
             </svg>
           </button>
           <button
             type="button"
+            className="p-2"
             aria-label="delete"
             disabled={isRemoveMutationLoading}
             onClick={() =>
@@ -123,15 +130,17 @@ export default function TodoItem({ todo, index }) {
             }
           >
             <svg
+              fill="none"
+              strokeWidth={1.5}
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-5 h-5 text-primary hover:text-red "
               xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              className="w-3.5 md:w-5"
             >
               <path
-                fill="#494C6B"
-                fillRule="evenodd"
-                d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
               />
             </svg>
           </button>

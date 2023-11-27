@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useQuery } from '@tanstack/react-query';
 
@@ -15,17 +15,30 @@ import TodoCollectionList from './TodoCollectionList';
 
 export default function TodoList() {
   const { data: session } = useSession();
-  const { currentTodoCollectionID } = useContext(TodosContext);
+  const { currentTodoCollectionID, setCurrentTodoCollectionID } =
+    useContext(TodosContext);
 
-  const [show, setShow] = useState([
-    { all: true, active: false, completed: false },
-  ]);
+  const [show, setShow] = useState({
+    all: true,
+    active: false,
+    completed: false,
+  });
 
-  const { data: todoCollections, isLoading: areTodosLoading } = useQuery({
+  const {
+    error: loadingError,
+    data: todoCollections,
+    isLoading: areTodosLoading,
+  } = useQuery({
     queryKey: ['todo-collections'],
     queryFn: () => getTodoCollection(session?.user?.id),
     enabled: !!session?.user?.id,
   });
+
+  useEffect(() => {
+    if (todoCollections && todoCollections.length > 0) {
+      setCurrentTodoCollectionID(todoCollections[0]._id);
+    }
+  }, [todoCollections]);
 
   const currentTodoCollectionItems =
     todoCollections &&
@@ -48,41 +61,48 @@ export default function TodoList() {
         ))
     );
 
-  if (areTodosLoading)
-    return (
-      <div className="mt-4 shadow-2xl shadow-black/20 md:mt-6">
-        <p className="text-4xl text-white">Loading...</p>;
-      </div>
-    );
-
-  const formatName = (name, fontSize = 'text-7xl') =>
-    name
-      .split('')
-      .map((letter) => (
-        <li
-          className={`text-center font-bold leading-none uppercase text-primary dark:text-secondary ${fontSize}`}
-        >
-          {letter}
-        </li>
-      ));
-
-  const todosCount = todoCollections.find(
+  const todosCount = todoCollections?.find(
     (collection) => collection?._id === currentTodoCollectionID
   )?.todos?.length;
 
+  const formatName = (name, fontSize = 'text-7xl') =>
+    name.split('').map((letter, idx) => (
+      <li
+        key={letter + idx}
+        className={`text-center font-bold leading-none uppercase text-primary dark:text-secondary ${fontSize}`}
+      >
+        {letter}
+      </li>
+    ));
+
+  if (loadingError) {
+    return (
+      <div className="text-primary dark:text-secondary">
+        Error loading todo collections
+      </div>
+    );
+  }
+
+  if (areTodosLoading)
+    return (
+      <div className="mt-4 shadow-2xl shadow-black/20 md:mt-6">
+        <ul className="flex-wrap flex items-center w-full justify-between gap-1">
+          {formatName('Loading...', 'text-3xl')}
+        </ul>
+      </div>
+    );
+
   return (
-    <div className="mt-2">
-      <div className="text-2xl  text-dark-text-primary">
+    <div className="mt-2 mb-32">
+      <div className="text-2xl dark:text-tertiary text-primary">
         {!todoCollections?.length ? (
           <div className="flex items-center justify-center w-full h-full">
-            <h2>You haven't created any folders yet</h2>
+            <h2 className="text-base">You haven't created any folders yet</h2>
           </div>
         ) : (
-          <>
-            <ul className="flex-wrap flex items-center w-full justify-between gap-1">
-              {formatName('Collections', 'text-3xl')}
-            </ul>
-          </>
+          <ul className="flex-wrap flex items-center w-full justify-between gap-1">
+            {formatName('Collections', 'text-3xl')}
+          </ul>
         )}
       </div>
 

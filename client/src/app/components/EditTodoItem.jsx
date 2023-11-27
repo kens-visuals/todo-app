@@ -34,24 +34,36 @@ export default function EditTodoItem({ todo, isEditing, setIsEditing }) {
     <form
       action="PUT"
       onSubmit={handleEdit}
-      className="flex w-full items-center"
+      className="flex w-full items-center gap-4"
     >
       <input
         type="text"
         value={updatedTask}
         disabled={isUpdateMutationLoading}
         onChange={(e) => setUpdatedTask(e.target.value)}
-        className={`mx-3 mr-auto w-10/12 rounded-md bg-light-bg-primary px-1 text-sm text-light-text-tertiary caret-blue outline-1 duration-150 focus-visible:outline focus-visible:outline-blue dark:bg-dark-bg-primary dark:text-dark-text-primary ${
-          isEditing && 'border border-blue'
+        className={`mx-3 mr-auto w-10/12 rounded-md px-1 text-sm dark:caret-yellow caret-green outline-1 duration-150 focus-visible:outline-none bg-primary ${
+          isEditing &&
+          'border dark:border-yellow border-green text-green dark:text-yellow '
         }`}
       />
-      <button type="button" onClick={handleEdit}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="9">
+      <button
+        type="button"
+        aria-label="confirm"
+        onClick={handleEdit}
+        className="p-2"
+      >
+        <svg
+          fill="none"
+          strokeWidth={1.5}
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-5 h-5 text-primary hover:text-green"
+        >
           <path
-            fill="none"
-            stroke="#FFF"
-            strokeWidth="2"
-            d="M1 4.304L3.696 7l6-6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
       </button>
