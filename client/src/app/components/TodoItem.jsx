@@ -90,7 +90,7 @@ export default function TodoItem({ todo, index }) {
           } `}
         >
           {isUpdateMutationLoading || isRemoveMutationLoading ? (
-            <div className="animate h-4 w-1/2 animate-pulse rounded-lg bg-light-bg-secondary" />
+            <span className="animate h-4 w-1/2 animate-pulse rounded-lg bg-light-bg-secondary" />
           ) : (
             todo?.text
           )}

@@ -13,6 +13,38 @@ export default function Navigation() {
     <div className="left-0 bottom-0 w-full flex rounded-3xl p-7 gap-4 text-primary justify-between items-center fixed shadow-md backdrop-blur-sm dark:bg-yellow/75 bg-green/75 backdrop-filter bg-opacity-75">
       <ThemeToggle />
 
+      <Link href="/routines">
+        {pathname === '/routines' ? (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              fillRule="evenodd"
+              d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z"
+              clipRule="evenodd"
+            />
+          </svg>
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        )}
+      </Link>
+
       <Link href="/">
         {pathname === '/' ? (
           <svg
@@ -46,6 +78,34 @@ export default function Navigation() {
         )}
       </Link>
 
+      <Link href="/todos">
+        {pathname === '/todos' ? (
+          <svg
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-6 h-6"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M5.625 3.75a2.625 2.625 0 100 5.25h12.75a2.625 2.625 0 000-5.25H5.625zM3.75 11.25a.75.75 0 000 1.5h16.5a.75.75 0 000-1.5H3.75zM3 15.75a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75zM3.75 18.75a.75.75 0 000 1.5h16.5a.75.75 0 000-1.5H3.75z" />
+          </svg>
+        ) : (
+          <svg
+            fill="none"
+            strokeWidth={1.5}
+            viewBox="0 0 24 24"
+            className="w-6 h-6"
+            stroke="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"
+            />
+          </svg>
+        )}
+      </Link>
+
       {session ? (
         <Link href="/api/auth/signout?callbackUrl=/">
           <svg
@@ -54,7 +114,7 @@ export default function Navigation() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-8 h-8"
+            className="w-6 h-6"
           >
             <path
               strokeLinecap="round"
@@ -71,7 +131,7 @@ export default function Navigation() {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-8 h-8"
+            className="w-6 h-6"
           >
             <path
               strokeLinecap="round"
