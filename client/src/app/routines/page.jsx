@@ -10,28 +10,12 @@ export default function Routines() {
   const [currentDay, setCurrentDay] = useState(3);
   const [leftOfSelectedButton, setLeftOfSelectedButton] = useState(0);
   const [rightOfSelectedButton, setRightOfSelectedButton] = useState(0);
-
-  // useEffect(() => {
-  //   const container = containerRef.current;
-
-  //   if (container) {
-  //     const buttonWidth = 80;
-  //     const visibleButtons = Math.floor(container.clientWidth / buttonWidth);
-  //     const middleButton = Math.floor(visibleButtons / 2);
-
-  //     const selectedButtonIndex = currentDay - 1;
-  //     const leftOfSelectedButton = selectedButtonIndex - 1;
-  //     const rightOfSelectedButton = selectedButtonIndex + 1;
-
-  //     setLeftOfSelectedButton(leftOfSelectedButton);
-  //     setRightOfSelectedButton(rightOfSelectedButton);
-
-  //     const scrollPosition =
-  //       selectedButtonIndex * buttonWidth - middleButton * buttonWidth;
-
-  //     container.scrollTo({ left: scrollPosition, behavior: 'smooth' });
-  //   }
-  // }, [currentDay]);
+  const [habits, setHabits] = useState([
+    { id: 1, text: 'Read for 30 minutes', completed: false },
+    { id: 2, text: 'Exercise for 45 minutes', completed: true },
+    { id: 3, text: 'Meditate for 10 minutes', completed: false },
+    { id: 4, text: 'Write in journal', completed: true },
+  ]);
 
   const handleScroll = () => {
     const container = containerRef.current;
@@ -53,6 +37,14 @@ export default function Routines() {
 
       setCurrentDay(selectedButtonIndex);
     }
+  };
+
+  const handleToggleCompletion = (habitId) => {
+    setHabits((prevHabits) =>
+      prevHabits.map((habit) =>
+        habit.id === habitId ? { ...habit, completed: !habit.completed } : habit
+      )
+    );
   };
 
   useEffect(() => {
@@ -77,7 +69,6 @@ export default function Routines() {
             : 'bg-green/50 dark:bg-yellow/50'
         }`}
       />
-
       <div
         className={`absolute top-0 left-1/2 -translate-x-1/2 h-4 rounded-b-md ${
           currentDay === number
@@ -96,12 +87,19 @@ export default function Routines() {
   );
 
   return (
-    <div className="">
+    <div>
+      <input
+        type="text"
+        name="routines"
+        placeholder="create a routine..."
+        className="w-full rounded-xl text-xl border-0 bg-green px-4 py-6 text-tertiary caret-dark-green shadow-2xl shadow-black/20 placeholder:text-secondary focus-visible:outline focus-visible:outline-dark-green dark:bg-yellow dark:text-primary placeholder:dark:text-primary/50 md:p-4 md:text-lg md:placeholder:text-xl placeholder:tracking-wide"
+      />
+
       <ul
         ref={containerRef}
         className="flex snap-x snap-proximity overflow-x-auto max-w-full no-scrollbar my-4 pr-1 w-full"
       >
-        {numbers.map((number, index) => (
+        {numbers.map((number) => (
           <li key={number} className="relative">
             {getTopMarks(number)}
             <button
@@ -111,14 +109,42 @@ export default function Routines() {
                 currentDay === number
                   ? 'text-green dark:text-yellow text-5xl dark:bg-secondary/20 bg-primary/20'
                   : 'text-primary/50 dark:text-tertiary/50 h-max'
-              } ${
-                (leftOfSelectedButton === number ||
-                  rightOfSelectedButton === number) &&
-                'text-2xl'
-              } }`}
+              } 
+              ${
+                leftOfSelectedButton === number ||
+                rightOfSelectedButton === number
+                  ? 'text-2xl'
+                  : (leftOfSelectedButton - 1 !== number ||
+                        rightOfSelectedButton + 1 !== number) &&
+                      currentDay !== number
+                    ? 'text-xs !opacity-30'
+                    : ''
+              }
+            `}
             >
               {number}
             </button>
+          </li>
+        ))}
+      </ul>
+
+      <ul className="space-y-4">
+        {habits.map((habit) => (
+          <li key={habit.id} className="flex items-center">
+            <label
+              htmlFor={`habit${habit.id}`}
+              className={`text-lg ${habit.completed ? 'line-through' : ''}`}
+            >
+              <input
+                type="checkbox"
+                className="mr-4"
+                id={`habit${habit.id}`}
+                checked={habit.completed}
+                onChange={() => handleToggleCompletion(habit.id)}
+              />
+
+              {habit.text}
+            </label>
           </li>
         ))}
       </ul>

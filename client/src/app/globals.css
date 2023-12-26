@@ -23,4 +23,16 @@
       scrollbar-width: none; /* Firefox */
     }
   }
+
+  .fisheye-end::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1rem; /* Adjust the size of the fisheye end */
+    height: 1rem;
+    background: radial-gradient(circle closest-side, black, transparent);
+    border-radius: 50%;
+  }
 }
