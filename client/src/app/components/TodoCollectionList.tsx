@@ -1,13 +1,20 @@
 'use client';
 import { useContext, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { TodosContext } from '@/app/context/TodosContext';
+import { TodosContext } from '@/app/context/TodosContextProvider';
 
 import deleteTodoCollection from '@/app/api/delecteTodoCollection';
-import { createPortal } from 'react-dom';
+import { TodoCollection } from '../types';
 
-export default function TodoCollectionList({ todoCollections }) {
+type TodoCollectionListProps = {
+  todoCollections: TodoCollection[];
+};
+
+export default function TodoCollectionList({
+  todoCollections,
+}: TodoCollectionListProps) {
   const queryClient = useQueryClient();
 
   const { currentTodoCollectionID, setCurrentTodoCollectionID } =
@@ -17,21 +24,25 @@ export default function TodoCollectionList({ todoCollections }) {
 
   const {
     mutate: removeTodoCollectionMutation,
-    isLoading: isRemoveTodoCollectionMutationLoading,
+    isPending: isRemoveTodoCollectionMutationLoading,
   } = useMutation({
-    queryKey: ['todo-collections'],
-    mutationFn: (id) => deleteTodoCollection(id),
+    mutationFn: (id: string) => deleteTodoCollection(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todo-collections'] });
 
       const collectionIndex = todoCollections?.findIndex(
-        (collection) => collection?._id === currentTodoCollectionID
+        (collection: TodoCollection) =>
+          collection?._id === currentTodoCollectionID
       );
 
       if (collectionIndex === 0) {
-        setCurrentTodoCollectionID(todoCollections?.at(index + 1)?._id);
+        setCurrentTodoCollectionID(
+          todoCollections?.at(collectionIndex + 1)?._id
+        );
       } else {
-        setCurrentTodoCollectionID(todoCollections?.at(index - 1)?._id);
+        setCurrentTodoCollectionID(
+          todoCollections?.at(collectionIndex - 1)?._id
+        );
       }
     },
   });

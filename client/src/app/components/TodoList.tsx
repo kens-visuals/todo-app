@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import getTodoCollection from '@/app/api/getTodoCollections';
 
-import { TodosContext } from '@/app/context/TodosContext';
+import { TodosContext } from '@/app/context/TodosContextProvider';
 
 import TodoItem from '@/app/components/TodoItem';
 import TodoItemInput from '@/app/components/TodoItemInput';
@@ -30,7 +30,9 @@ export default function TodoList() {
     isLoading: areTodosLoading,
   } = useQuery({
     queryKey: ['todo-collections'],
+    // @ts-ignore
     queryFn: () => getTodoCollection(session?.user?.id),
+    // @ts-ignore
     enabled: !!session?.user?.id,
   });
 
@@ -46,26 +48,28 @@ export default function TodoList() {
       (collection) => collection?._id === currentTodoCollectionID
     );
 
-  const allToDos = currentTodoCollectionItems?.map((collection) =>
-    collection.todos?.map((todo, index) => (
-      <TodoItem key={todo?._id} todo={todo} index={index} />
-    ))
+  const allToDos = currentTodoCollectionItems?.map(
+    (collection) =>
+      collection.todos?.map((todo, index) => (
+        <TodoItem key={todo?._id} todo={todo} index={index} />
+      ))
   );
 
-  const otherToDos = (isActive) =>
-    currentTodoCollectionItems?.map((collection) =>
-      collection?.todos
-        ?.filter((todo) => (isActive ? !todo?.completed : todo?.completed))
-        ?.map((todo, index) => (
-          <TodoItem key={todo?._id} todo={todo} index={index} />
-        ))
+  const otherToDos = (isActive: boolean) =>
+    currentTodoCollectionItems?.map(
+      (collection) =>
+        collection?.todos
+          ?.filter((todo) => (isActive ? !todo?.completed : todo?.completed))
+          ?.map((todo, index) => (
+            <TodoItem key={todo?._id} todo={todo} index={index} />
+          ))
     );
 
   const todosCount = todoCollections?.find(
     (collection) => collection?._id === currentTodoCollectionID
   )?.todos?.length;
 
-  const formatName = (name, fontSize = 'text-7xl') =>
+  const formatName = (name: string, fontSize = 'text-7xl') =>
     name.split('').map((letter, idx) => (
       <li
         key={letter + idx}

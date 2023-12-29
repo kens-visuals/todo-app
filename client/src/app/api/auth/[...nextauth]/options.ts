@@ -1,4 +1,4 @@
-import GoogleProvider from 'next-auth/providers/google';
+import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import clientPromise from '@/app/lib/mongodb';
 

@@ -1,10 +1,8 @@
 'use client';
-import { useContext } from 'react';
-
-import { ThemeContext } from '@/app/context/ThemeContext';
+import { useTheme } from 'next-themes';
 
 const ThemeToggler = () => {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
 
   return (
     <div className="transition-all duration-500 ease-in-out text-primary">
@@ -12,7 +10,9 @@ const ThemeToggler = () => {
         <button
           type="button"
           aria-label="toggle light mode"
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          onClick={() =>
+            theme === 'dark' ? setTheme('light') : setTheme('dark')
+          }
         >
           <svg
             fill="none"

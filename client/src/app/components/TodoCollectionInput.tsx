@@ -1,11 +1,16 @@
 'use client';
-import { useState, useContext } from 'react';
+import { useState, useContext, FormEvent } from 'react';
 import { useSession } from 'next-auth/react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 import createTodoCollection from '@/app/api/createTodoCollection';
 
-import { TodosContext } from '@/app/context/TodosContext';
+import { TodosContext } from '@/app/context/TodosContextProvider';
+
+type CreateTodoCollectionMutationParams = {
+  title: string;
+  userID: string;
+};
 
 export default function TodoCollectionInput() {
   const { data: session } = useSession();
@@ -17,16 +22,18 @@ export default function TodoCollectionInput() {
   const { setCurrentTodoCollectionID } = useContext(TodosContext);
 
   const { mutate: createTodoCollectionMutation } = useMutation({
-    mutationFn: ({ title, userID }) => createTodoCollection(title, userID),
+    mutationFn: ({ title, userID }: CreateTodoCollectionMutationParams) =>
+      createTodoCollection(title, userID),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['todo-collections'] });
       setCurrentTodoCollectionID(data?._id);
     },
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     if (!title) return;
 
+    // @ts-ignore
     const userID = session?.user?.id;
 
     e.preventDefault();

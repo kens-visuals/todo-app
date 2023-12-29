@@ -1,21 +1,39 @@
 'use client';
-import { useState, useContext } from 'react';
+import { useState, useContext, Dispatch, SetStateAction } from 'react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 import updateTodo from '@/app/api/updateTodo';
 
-import { TodosContext } from '@/app/context/TodosContext';
+import { TodosContext } from '@/app/context/TodosContextProvider';
+import { Todo } from '../types';
 
-export default function EditTodoItem({ todo, isEditing, setIsEditing }) {
+type EditTodoItemProps = {
+  todo: Todo;
+  isEditing: boolean;
+  setIsEditing: Dispatch<SetStateAction<boolean>>;
+};
+
+type UpdateMutationTodoProps = {
+  id: string;
+  todoID: string;
+  todo: Todo;
+};
+
+export default function EditTodoItem({
+  todo,
+  isEditing,
+  setIsEditing,
+}: EditTodoItemProps) {
   const queryClient = useQueryClient();
 
   const [updatedTask, setUpdatedTask] = useState(todo?.text);
 
   const { currentTodoCollectionID } = useContext(TodosContext);
 
-  const { mutate: updateMutationTodo, isLoading: isUpdateMutationLoading } =
+  const { mutate: updateMutationTodo, isPending: isUpdateMutationLoading } =
     useMutation({
-      mutationFn: ({ id, todoID, todo }) => updateTodo(id, todoID, todo),
+      mutationFn: ({ id, todoID, todo }: UpdateMutationTodoProps) =>
+        updateTodo(id, todoID, todo),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['todo-collections'] });
       },

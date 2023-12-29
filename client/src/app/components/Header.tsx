@@ -1,4 +1,5 @@
 'use client';
+
 import { useState, Fragment } from 'react';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
@@ -9,7 +10,7 @@ export default function Header() {
 
   const [show, setShow] = useState(false);
 
-  const getHeader = (word) => (
+  const getHeader = (word: string) => (
     <ul className="flex items-center justify-start gap-1">
       {session?.user
         ? word.split('').map((letter, index) => (
@@ -25,7 +26,7 @@ export default function Header() {
                   <div className="flex items-center gap-2 justify-between filter grayscale hover:filter-none cursor-pointer">
                     <img
                       alt="user"
-                      src={session?.user?.picture}
+                      src={session?.user?.image}
                       className="h-10 aspect-square rounded-full"
                     />
                     {show && (

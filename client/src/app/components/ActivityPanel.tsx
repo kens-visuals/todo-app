@@ -1,12 +1,25 @@
 'use client';
-import { useContext } from 'react';
+
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 import clearCompletedTodos from '@/app/api/clearCompletedTodos';
 
-import { TodosContext } from '@/app/context/TodosContext';
+import { TodosContext } from '@/app/context/TodosContextProvider';
 
-export default function ActivityPanel({ todos, show, setShow }) {
+import { Todo } from '../types';
+
+type ActivityPanelProps = {
+  todos: Todo[];
+  show: { [key: string]: boolean };
+  setShow: Dispatch<SetStateAction<{ [key: string]: boolean }>>;
+};
+
+export default function ActivityPanel({
+  todos,
+  show,
+  setShow,
+}: ActivityPanelProps) {
   const queryClient = useQueryClient();
 
   const { currentTodoCollectionID } = useContext(TodosContext);
@@ -15,18 +28,17 @@ export default function ActivityPanel({ todos, show, setShow }) {
 
   const {
     mutate: clearCompletedMutation,
-    isLoading: isClearCompletedMutationLoading,
+    isPending: isClearCompletedMutationLoading,
   } = useMutation({
-    mutationFn: (id) => clearCompletedTodos(id),
+    mutationFn: (id: string) => clearCompletedTodos(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todo-collections'] });
       setShow({ all: true, active: false, completed: false });
     },
   });
 
-  const countOfCompletedTodos = todos?.filter(
-    (todo) => !todo?.completed
-  ).length;
+  const countOfCompletedTodos = todos?.filter((todo) => !todo?.completed)
+    .length;
 
   const sectionsButtons = sections.map((section, index) => (
     <button

@@ -5,32 +5,51 @@ import { useQueryClient, useMutation } from '@tanstack/react-query';
 import updateTodo from '@/app/api/updateTodo';
 import removeTodo from '@/app/api/removeTodo';
 
-import { TodosContext } from '@/app/context/TodosContext';
+import { TodosContext } from '@/app/context/TodosContextProvider';
 
 import EditTodoItem from '@/app/components/EditTodoItem';
+import { Todo } from '../types';
 
-export default function TodoItem({ todo, index }) {
+type UpdateMutationTodoParams = {
+  id: string;
+  todoID: string;
+  todo: Todo;
+};
+
+type RemoveMutationParams = {
+  id: string;
+  todoID: string;
+};
+
+type TodoItemProps = {
+  todo: Todo;
+  index: number;
+};
+
+export default function TodoItem({ todo, index }: TodoItemProps) {
   const queryClient = useQueryClient();
 
   const { currentTodoCollectionID } = useContext(TodosContext);
 
   const [isEditing, setIsEditing] = useState(false);
 
-  const { mutate: updateMutationTodo, isLoading: isUpdateMutationLoading } =
+  const { mutate: updateMutationTodo, isPending: isUpdateMutationLoading } =
     useMutation({
-      mutationFn: ({ id, todoID, todo }) => updateTodo(id, todoID, todo),
+      mutationFn: ({ id, todoID, todo }: UpdateMutationTodoParams) =>
+        updateTodo(id, todoID, todo),
       onSuccess: (data) => {
-        queryClient.invalidateQueries(['todo-collections']);
+        queryClient.invalidateQueries({ queryKey: ['todo-collections'] });
 
         console.log('Mutation Data:', data);
       },
     });
 
-  const { mutate: removeMutation, isLoading: isRemoveMutationLoading } =
+  const { mutate: removeMutation, isPending: isRemoveMutationLoading } =
     useMutation({
-      mutationFn: ({ id, todoID }) => removeTodo(id, todoID),
+      mutationFn: ({ id, todoID }: RemoveMutationParams) =>
+        removeTodo(id, todoID),
       onSuccess: () => {
-        queryClient.invalidateQueries(['todo-collections']);
+        queryClient.invalidateQueries({ queryKey: ['todo-collections'] });
       },
     });
 

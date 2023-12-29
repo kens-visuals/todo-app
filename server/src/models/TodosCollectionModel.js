@@ -7,9 +7,7 @@ const todosCollectionShema = new mongoose.Schema(
     userID: { type: String, required: true },
     todos: { type: [TodoModel.schema], default: [] },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 const TodosCollectionModel = mongoose.model(
